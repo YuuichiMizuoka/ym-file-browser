@@ -1,0 +1,311 @@
+/* generic html overwrites */
+html {
+    font-family: system, -apple-system, ".SFNSDisplay-Regular", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    min-height: 100%;
+    font-weight: 300;
+    font-size: 1em;
+    line-height: 2em;
+}
+
+body {
+    max-width: 100%;
+    margin: 0 auto;
+
+    color: #fff;
+    background-image: url("data:image/gif;base64,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")
+}
+
+a {
+    color: #ff22aa;
+    text-decoration-color: #ff22aa;
+}
+
+input {
+    background-color: #452a62;
+    border-color: #452a62;
+    color: white;
+
+    outline: 2px hidden;
+    height: 1.75em;
+}
+
+input:focus {
+    border: 2px solid #ff0099;
+    outline: none;
+}
+
+
+button {
+    background-color: #ff0099;
+    color: #FFF;
+
+    padding: 3px 10px;
+
+    font-size: 1em;
+    font-weight: bold;
+
+    border: 0 solid #ff0099;
+    border-radius: 15px;
+
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+button:hover {
+    background-color: #ff0099;
+    outline: 2px solid white;
+}
+
+button:active {
+    background-color: #df007a;
+}
+
+
+img {
+    pointer-events: auto;
+}
+
+
+/* table */
+table {
+    pointer-events: auto;
+
+    border-collapse: collapse;
+    border-radius: 15px;
+
+    max-width: 100%;
+    margin: 0 auto;
+
+    background-color: rgb(16, 0, 37, 0.3);
+}
+
+/* table headers */
+th {
+    padding-right: 20px;
+    text-align: center;
+}
+
+th + th {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+th:first-of-type {
+    padding-left: 10px;
+}
+
+th:last-child {
+    padding-right: 10px;
+}
+
+/* table data */
+tr {
+    outline: 0;
+    border: 0;
+}
+
+tr:hover td {
+    background-color: rgb(16, 0, 37, 0.7);
+}
+
+tbody > tr:last-child > td {
+    border-bottom: 0;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    padding: 5px 0;
+    outline: 0;
+    border: 0;
+    border-bottom: 1px solid #2c2c2c;
+    vertical-align: middle;
+    text-align: center;
+    -webkit-transition: background 150ms ease-in;
+    -moz-transition: background 150ms ease-in;
+    -ms-transition: background 150ms ease-in;
+    -o-transition: background 150ms ease-in;
+    transition: background 150ms ease-in;
+}
+
+tr td:first-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+td:last-child {
+    padding-right: 10px;
+}
+
+/* mobile browser workaround who ignore 'overflow:hidden' on the body object itself */
+.inner-body {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    vertical-align: center;
+}
+
+/* general page structure */
+.content {
+    max-width: min(900px, 100%);
+    margin: auto auto 50px;
+}
+
+/* content header */
+.header  {
+    text-align: center;
+
+    width: 100%;
+    margin: 1.4em auto 0;
+}
+
+.header h1 {
+    display: inline-block;
+    pointer-events: auto;
+
+    font-size: 1.4em;
+    font-family: 'Museo Slab', 'Open Sans', monospace;
+    font-weight: 200;
+
+    text-align: center;
+    line-height: 1.4em;
+
+    margin: 0 auto;
+
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+/* file table headers */
+.file-table th {
+    text-align: left;
+    width: 85%;
+}
+
+.file-table th + th {
+    width: 10%;
+
+    text-align: center;
+    font-size: 0.875em;
+
+    min-width: 100px;
+}
+
+.file-table th + th + th {
+    width: 15%;
+}
+
+/* file table data */
+
+.file-table td {
+    max-width: 100px;
+    text-align: left;
+}
+
+.file-table td + td {
+    text-align: center;
+    font-size: 0.875em;
+}
+
+
+.file-table td:last-child, .file-table th:last-child {
+    text-align: center;
+    min-width: 100px;
+}
+
+.file-table-appendix {
+    text-align: center;
+    margin-top: 25px;
+}
+
+/* directory list structure */
+.file-listing {
+    margin-top: 1.3em;
+}
+
+.top-search {
+    width: 98%
+}
+
+.file-view {
+    width: 100%;
+    margin-top: 0;
+    text-align: center;
+}
+
+h1.file-path {
+    display: block;
+}
+
+h1.file-name {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.icon {
+    fill: rgb(255, 255, 255);
+    width: 16px;
+    margin-left: 2px;
+    margin-right: 2px;
+    vertical-align: text-bottom;
+}
+
+.file-navigation {
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.file-container {
+    font-weight: bold;
+}
+
+.file-container img, .file-container video {
+    max-width: 100%;
+    max-height: 70vh;
+    display: block;
+    margin: auto;
+}
+
+.file-container iframe {
+    width: 100%;
+    height: 70vh;
+    background-color: white;
+}
+
+.home-link {
+    text-decoration: none;
+}
+
+.home-link svg {
+    fill: #ff22aa;
+    vertical-align: text-top;
+}
+
+/* mobile adjustments */
+@media only screen and (max-width: 925px) {
+    .top-search {
+        width: 95%
+    }
+
+    .header {
+        background-color: rgba(16, 0, 37, 0.3);
+        width: 99%;
+    }
+
+    .file-view {
+        width: 95%;
+        margin: auto;
+    }
+
+    .icon {
+        width: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index of {requestPath} - ym-file-browser</title>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?asset">
+    <link rel="stylesheet" href="/index.css?asset">
+</head>
+<body>
+<div class="inner-body">
+    <div class="content">
+        <div class="header">
+            <h1 class="file-path">
+                <a class="home-link" href="/"><svg width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve"><polygon points="17.972,50.667 17.972,120 44.667,120 44.667,77.364 75.639,77.364 75.639,120 102.334,120 102.334,50.667 "/><polygon points="0.481,60 60.152,0 119.824,60 "/></svg></a>
+                <span>
+                    {#for parthPart in requestPathParts}<span>/</span><a href="{parthPart.pathLink()}">{parthPart.pathName()}</a>{/for}/
+                </span>
+            </h1>
+            <h1 class="file-name"><a href="{filePath}">{fileName}</a></h1>
+        </div>
+        <div class="file-view">
+            <div class="file-navigation">
+                {#if previousPath != null}
+                    <span style="position: absolute; left: 0"><a href="{previousPath}?view"><button>Previous</button></a></span>
+                {/if}
+
+                <a href="{filePath}" download=""><button>Download</button></a>
+
+                {#if nextPath != null}
+                    <span style="position: absolute; right: 0"><a href="{nextPath}?view"><button>Next</button></a></span>
+                {/if}
+            </div>
+
+            <div class="file-container">
+                {#if fileType != null && fileType.startsWith("image")}
+                    <img alt="Image cant be displayed" src="{filePath}" />
+                {#else if fileType != null && fileType.startsWith("video")}
+                    <video controls src="{filePath}"></video>
+                {#else if fileType != null && fileType.endsWith("pdf")}
+                    <iframe src="{filePath}"></iframe>
+                {#else}
+                    <span><br>Sorry, this file cant be previewed<br>Please <a href="{requestPath}" download="">download</a> the file or <a target="_blank" href="{requestPath}">open it directly</a> instead</span>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

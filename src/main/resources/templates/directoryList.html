@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index of {requestPath} - ym-file-browser</title>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?asset">
+    <link rel="stylesheet" href="/index.css?asset">
+</head>
+<body>
+<div class="inner-body">
+    <div class="content">
+        <div class="header">
+            <h1>
+            <a class="home-link" href="/"><svg width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve"><polygon points="17.972,50.667 17.972,120 44.667,120 44.667,77.364 75.639,77.364 75.639,120 102.334,120 102.334,50.667 "/><polygon points="0.481,60 60.152,0 119.824,60 "/></svg></a>
+            <span>
+                {#for parthPart in requestPathParts}<span>/</span><a href="{parthPart.pathLink()}">{parthPart.pathName()}</a>{/for}
+            </span>
+            </h1>
+            <form>
+                <label>
+                    <input accesskey="/" class="top-search" name="q" type="text" placeholder="Search..." {#if query != null}value="{query}"{/if}>
+                </label>
+            </form>
+        </div>
+        <div class="file-listing">
+            <table class="file-table">
+                <tr>
+                    <th>File Name</th>
+                    <th>File Size</th>
+                    <th>Action</th>
+                </tr>
+                {#for file in entries}
+                    <tr>
+                        {#if file.file().isDirectory()}
+                            <td>
+                                <svg style="fill: rgb(0, 255, 0); position: relative; top: 2px; width: 16px" x="0px" y="0px" viewBox="0 0 120 120"><polygon points="108,109.75 12,109.75 0,49.088 120,49.088 "/><polygon points="16.391,11.291 55.547,11.291 63.064,40.75 8.875,40.75 "/><polygon points="111.125,40.75 8.875,40.75 19.25,24.65 107.125,24.65 "/></svg>
+                                <a style="color: rgb(0, 255, 0); text-decoration-color: rgb(0, 255, 0);" href="{file.path()}">{file.name()}</a>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                <a href="{file.path()}?zip" download=""><svg class="icon" x="0px" y="0px" viewBox="0 0 120 120"><polygon points="48.732,69.783 91.039,27.476 102.778,39.215 60.472,81.527 "/><rect x="50.999" y="3.424" width="19.055" height="60.21"/><polygon points="60.543,81.572 18.22,39.283 29.941,27.542 72.271,69.85 "/><rect x="9" y="99.575" width="103" height="17"/><rect x="5.5" y="68.576" width="17" height="48"/><rect x="97.5" y="68.576" width="17" height="48"/></svg></a>
+                            </td>
+                        {#else}
+                            <td>
+                                <svg style="fill: rgb(255, 255, 0); position: relative; top: 2px; width: 16px" x="0px" y="0px" viewBox="0 0 120 120"><polygon points="103.192,120 16.526,120 16.526,0 55.96,0 55.96,46.301 103.192,46.301 "/><polygon points="64.476,0 64.476,38.717 103.192,38.717 "/></svg>
+                                <a style="color: rgb(255, 255, 0); text-decoration-color: rgb(255, 255, 0);" target="_blank" href="{file.path()}">{file.name()}</a>
+                            </td>
+                            <td>
+                                {file.readableSize()}
+                            </td>
+                            <td>
+                                <a href="{file.path()}" download=""><svg class="icon" x="0px" y="0px" viewBox="0 0 120 120"><polygon points="48.732,69.783 91.039,27.476 102.778,39.215 60.472,81.527 "/><rect x="50.999" y="3.424" width="19.055" height="60.21"/><polygon points="60.543,81.572 18.22,39.283 29.941,27.542 72.271,69.85 "/><rect x="9" y="99.575" width="103" height="17"/><rect x="5.5" y="68.576" width="17" height="48"/><rect x="97.5" y="68.576" width="17" height="48"/></svg></a>
+                                <a href="{file.path()}?view" target="_blank"><svg class="icon" x="0px" y="0px" viewBox="0 0 120 120"><path d="M60,19.089C22.382,19.089,0.053,60,0.053,60S22.382,100.91,60,100.91S119.947,60,119.947,60S97.618,19.089,60,19.089zM59.999,84.409C46.54,84.409,35.59,73.459,35.59,60c0-13.459,10.95-24.409,24.409-24.409c13.459,0,24.409,10.95,24.409,24.409C84.408,73.459,73.458,84.409,59.999,84.409z"/><circle cx="60" cy="60.583" r="14.409"/></svg></a>
+                            </td>
+                        {/if}
+                    </tr>
+                {/for}
+            </table>
+            <div class="file-table-appendix">
+                {#if query == null}
+                    <a href="{requestPath}?zip" download="">
+                        <button>Download all files as ZIP</button>
+                    </a>
+                {#else}
+                    <a href="{requestPath}?q={query}&zip" download="">
+                        <button>Download all files as ZIP</button>
+                    </a>
+                {/if}
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
