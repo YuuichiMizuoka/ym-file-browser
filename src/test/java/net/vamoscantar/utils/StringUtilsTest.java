@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class StringUtilsTest {
 
-
     @Test
     void buildTreeHandleUrlPathAsExpected() {
         var result = buildTree("/etc/nginx/sites-available/", "/");

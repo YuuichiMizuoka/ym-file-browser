@@ -2,26 +2,29 @@ package net.vamoscantar;
 
 
 import io.vertx.core.http.HttpServerRequest;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
+import net.vamoscantar.index.FileSearch;
 import net.vamoscantar.templates.DirectoryList;
 import net.vamoscantar.templates.FileView;
 import net.vamoscantar.utils.ZipUtils;
 import net.vamoscantar.utils.http.HeaderUtils;
 import net.vamoscantar.utils.http.UrlUtils;
 import net.vamoscantar.utils.io.FileUtils;
+import net.vamoscantar.utils.lang.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static jakarta.ws.rs.core.MediaType.TEXT_HTML;
 import static jakarta.ws.rs.core.Response.Status.OK;
@@ -29,7 +32,7 @@ import static jakarta.ws.rs.core.Response.Status.PARTIAL_CONTENT;
 import static net.vamoscantar.utils.ResourceUtils.readResourceBytes;
 import static net.vamoscantar.utils.io.FileUtils.SORT_BY_TYPE_AND_NAME;
 import static net.vamoscantar.utils.io.StreamUtils.copyRange;
-import static net.vamoscantar.utils.lang.StringUtils.containsIgnoringCase;
+import static net.vamoscantar.utils.lang.CollectionUtils.findNeighbours;
 import static net.vamoscantar.utils.lang.StringUtils.hasText;
 
 @Path("/")
@@ -38,9 +41,12 @@ public class AppEndpoint {
     @ConfigProperty(name = "ym-file-browser.base")
     String base;
 
+    @Inject
+    FileSearch fileSearch;
+
     @GET
     @Path("/{paths: .*}")
-    public Response serveRequest(@Context HttpServerRequest request) throws IOException {
+    public Response serveRequest(@Context HttpServerRequest request) throws IOException, ExecutionException, InterruptedException {
         String requestPath = UrlUtils.sanitizePath(request.path());
         File requestFile = FileUtils.resolveSecurely(base, requestPath);
 
@@ -72,19 +78,13 @@ public class AppEndpoint {
         throw new NotFoundException("Resource not Found");
     }
 
-    private List<File> determineFileNeighbours(File requestedFile) {
-        var neighbourFiles = FileUtils.list(requestedFile.getParentFile(), File::isFile, SORT_BY_TYPE_AND_NAME);
-        var requestedFileIndex = neighbourFiles.indexOf(requestedFile);
-
-        var leftNeighbour = requestedFileIndex <= 0 ? null : neighbourFiles.get(requestedFileIndex - 1);
-        var rightNeighbour = requestedFileIndex >= neighbourFiles.size() - 1 ? null : neighbourFiles.get(requestedFileIndex + 1);
-
-        return Arrays.asList(leftNeighbour, rightNeighbour);
+    private List<File> determineFileNeighbours(File file) {
+        return findNeighbours(FileUtils.list(file.getParentFile(), SORT_BY_TYPE_AND_NAME), file);
     }
 
-    private List<File> determineFileList(File file, String searchQuery) throws IOException {
-        if (searchQuery != null && !searchQuery.isBlank()) {
-            return FileUtils.findRecursively(file, path -> containsIgnoringCase(path.getFileName().toString(), searchQuery), SORT_BY_TYPE_AND_NAME);
+    private List<File> determineFileList(File file, String searchQuery) throws ExecutionException, InterruptedException {
+        if (!StringUtils.isBlank(searchQuery)) {
+            return fileSearch.search(file, searchQuery);
         }
         return FileUtils.list(file, SORT_BY_TYPE_AND_NAME);
     }

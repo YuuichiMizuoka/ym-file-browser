@@ -22,12 +22,12 @@ public class FileView {
     private static final String FILE_VIEW_TEMPLATE = "templates/fileView.html";
 
     public static String render(String fileRoot, String requestPath, File file, File leftNeighbour, File rightNeighbour) throws IOException {
-        var parrentPathTree = removeLast(buildPathTree(requestPath));
+        var parentPathTree = removeLast(buildPathTree(requestPath));
 
         return Qute.fmt(readResource(FILE_VIEW_TEMPLATE))
                 .contentType("text/html")
                 .data("requestPath", requestPath)
-                .data("requestPathParts", parrentPathTree)
+                .data("requestPathParts", parentPathTree)
                 .data("filePath", UrlUtils.encodePath(file.getAbsolutePath().replace(fileRoot, "")))
                 .data("fileType", probeContentType(file.toPath()))
                 .data("fileName", file.getName())
