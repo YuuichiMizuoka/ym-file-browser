@@ -1,5 +1,7 @@
 package net.vamoscantar.utils.io;
 
+import lombok.SneakyThrows;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +22,7 @@ public class FileUtils {
     private static final Pattern NUMERIC = Pattern.compile("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 
     private FileUtils() {
-        
+
     }
 
     public static final Comparator<File> SORT_SEMANTICALLY = (l, r) -> {
@@ -56,14 +58,20 @@ public class FileUtils {
         return stream(requireNonNullElse(file.listFiles(), new File[0])).filter(filter).sorted(sort).toList();
     }
 
-    public static List<File> findRecursively(File file, Predicate<Path> filter, Comparator<File> sort) throws IOException {
+    @SneakyThrows
+    public static List<File> findRecursively(File file, Predicate<Path> filter) {
         try (var walk = Files.walk(file.toPath())) {
-            return walk.filter(filter).map(Path::toFile).sorted(sort).toList();
+            return walk.filter(filter).map(Path::toFile).toList();
         }
     }
 
     public static InputStream newInputStream(File file) throws IOException {
         return Files.newInputStream(file.toPath());
+    }
+
+    public static void move(File origin, File destination) throws IOException {
+        Files.deleteIfExists(destination.toPath());
+        Files.move(origin.toPath(), destination.toPath());
     }
 
     private static Integer compareSegments(String[] leftSegments, String[] rightSegments) {
