@@ -16,7 +16,7 @@ ym-file-browser is a simple static file server with indexed search
 ## How to Install
 ### Docker
 ```
-docker run -v /your-dir:/data -p 8080:8080 YuuichiMizouka/ym-file-browser
+docker run -v /your-dir:/data -p 8080:8080 yuuichimizuoka/ym-file-browser
 ```
 ### Java
 - clone the repository `git clone https://github.com/YuuichiMizouka/ym-file-browser`
@@ -26,7 +26,7 @@ docker run -v /your-dir:/data -p 8080:8080 YuuichiMizouka/ym-file-browser
 ## Configuration
 | ENV-Property | Description                                                                | Default |
 |--------------|----------------------------------------------------------------------------|---------|
-| BASE_DIR     | Directory served by the application                                        | -       |
+| BASE_DIR     | Directory served by the application                                        | /data   |
 | ENABLE_CACHE | Should a list of all files be created every 3 hours to speed up the search | false   |
 | CACHE_DIR    | Gives the Directory where the index file should be stored                  | ./      |
 
