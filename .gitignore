@@ -44,7 +44,4 @@ nb-configuration.xml
 
 #dev files
 application-dev-local.properties
-index.txt
-
-# My own stuff
-/scripts
+/dev

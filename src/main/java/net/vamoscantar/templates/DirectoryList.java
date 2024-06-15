@@ -22,9 +22,10 @@ public class DirectoryList {
 
     }
 
-    public static String render(String fileRoot, String requestPath, List<File> fileList, String query) throws IOException {
+    public static String render(String fileRoot, String requestPath, List<File> fileList, String query, String viewType) throws IOException {
         var requestPathParts = buildPathTree(requestPath);
         var entries = fileList.stream().map(f -> toEntry(fileRoot, f)).toList();
+        viewType = viewType == null ? "list" : viewType;
 
         return Qute.fmt(readResource(DIRECTORY_LIST_TEMPLATE))
                 .contentType("text/html")
@@ -32,6 +33,7 @@ public class DirectoryList {
                 .data("requestPathParts", requestPathParts)
                 .data("entries", entries)
                 .data("query", query)
+                .data("viewType", viewType)
                 .render();
     }
 

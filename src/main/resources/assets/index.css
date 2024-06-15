@@ -149,7 +149,7 @@ td:last-child {
 
 /* general page structure */
 .content {
-    max-width: min(900px, 100%);
+    max-width: min(950px, 100%);
     margin: auto auto 50px;
 }
 
@@ -225,8 +225,15 @@ td:last-child {
     margin-top: 1.3em;
 }
 
+.file-icon-container {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: left;
+}
+
 .top-search {
-    width: 98%
+    width: 95%
 }
 
 .file-view {
@@ -290,12 +297,14 @@ h1.file-name {
 /* mobile adjustments */
 @media only screen and (max-width: 925px) {
     .top-search {
-        width: 95%
+        width: calc(97% - 30px);
     }
 
     .header {
-        background-color: rgba(16, 0, 37, 0.3);
+        text-align: left;
+
         width: 99%;
+        padding-left: 5px;
     }
 
     .file-view {
@@ -308,4 +317,16 @@ h1.file-name {
         margin-left: 5px;
         margin-right: 5px;
     }
+
+    .file-icon-container {
+        justify-content: space-around;
+    }
+
+    .view-type-switch {
+        width: 27px;
+        height: 27px;
+        vertical-align: top;
+        top: -3px;
+    }
+
 }

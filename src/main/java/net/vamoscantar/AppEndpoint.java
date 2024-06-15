@@ -9,7 +9,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
-import net.vamoscantar.index.FileSearch;
+import net.vamoscantar.services.FileSearch;
+import net.vamoscantar.services.ThumbDB;
 import net.vamoscantar.templates.DirectoryList;
 import net.vamoscantar.templates.FileView;
 import net.vamoscantar.utils.ZipUtils;
@@ -44,6 +45,9 @@ public class AppEndpoint {
     @Inject
     FileSearch fileSearch;
 
+    @Inject
+    ThumbDB thumbDB;
+
     @GET
     @Path("/{paths: .*}")
     public Response serveRequest(@Context HttpServerRequest request) throws IOException, ExecutionException, InterruptedException {
@@ -54,14 +58,16 @@ public class AppEndpoint {
             return buildAssetResponse(requestPath);
         }
 
+        if (request.getParam("thumb") != null) {
+            return buildThumbResponse(requestFile, request.getHeader("If-None-Match"));
+        }
+
         if (requestFile.isFile()) {
             boolean showAsView = request.getParam("view") != null;
-
             if (showAsView) {
                 return buildFileViewResponse(requestPath, requestFile, determineFileNeighbours(requestFile));
-            } else {
-                return buildBinaryResponse(requestFile, request.getHeader("Range"), request.getHeader("If-None-Match"));
             }
+            return buildBinaryResponse(requestFile, request.getHeader("Range"), request.getHeader("If-None-Match"));
         }
 
         if (requestFile.isDirectory()) {
@@ -71,7 +77,7 @@ public class AppEndpoint {
             if (showAsZip) {
                 return buildZipResponse(requestFile, fileList);
             } else {
-                return buildDirectoyListResponse(requestPath, fileList, request.getParam("q"));
+                return buildDirectoyListResponse(requestPath, fileList, request.getParam("q"), request.getParam("viewType"));
             }
         }
 
@@ -100,6 +106,19 @@ public class AppEndpoint {
 
     private Response buildFileViewResponse(String requestPath, File file, List<File> neighbours) throws IOException {
         return Response.ok(FileView.render(base, requestPath, file, neighbours.get(0), neighbours.get(1)), TEXT_HTML).build();
+    }
+
+    private Response buildThumbResponse(File file, String ifNoneMatchHeader) throws IOException {
+        var thumb = thumbDB.determineThumb(file.toPath());
+
+        if (thumb.etag().equals(ifNoneMatchHeader)) {
+            return Response.notModified().header("ETag", thumb.etag()).build();
+        }
+
+        return Response.ok(thumb.is(), "image/png")
+                .header("Content-Disposition", "inline; thumb.png")
+                .header("ETag", thumb.etag())
+                .build();
     }
 
     private Response buildBinaryResponse(File file, String rangeHeader, String ifNoneMatchHeader) throws IOException {
@@ -133,8 +152,8 @@ public class AppEndpoint {
                 .build();
     }
 
-    private Response buildDirectoyListResponse(String requestPath, List<File> fileList, String query) throws IOException {
-        return Response.ok(DirectoryList.render(base, requestPath, fileList, query), TEXT_HTML).build();
+    private Response buildDirectoyListResponse(String requestPath, List<File> fileList, String query, String viewType) throws IOException {
+        return Response.ok(DirectoryList.render(base, requestPath, fileList, query, viewType), TEXT_HTML).build();
     }
 
 }

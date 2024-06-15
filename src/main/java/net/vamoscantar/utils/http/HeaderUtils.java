@@ -1,5 +1,9 @@
 package net.vamoscantar.utils.http;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import static net.vamoscantar.utils.lang.StringUtils.isBlank;
 
 public class HeaderUtils {
@@ -26,6 +30,10 @@ public class HeaderUtils {
 
     private static boolean rangeIsNotSatisfiable(long rangeStart, long rangeEnd, long fileLength) {
         return (rangeStart < 0 || rangeStart >= fileLength) || (rangeEnd < 0 || rangeEnd >= fileLength) || (rangeEnd < rangeStart);
+    }
+
+    public static String buildFileEtag(Path thumbPath) throws IOException {
+        return "\"" + Files.getLastModifiedTime(thumbPath).toMillis() + "-" + thumbPath.toFile().length() + "\"";
     }
 
 }
