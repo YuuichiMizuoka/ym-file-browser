@@ -18,6 +18,12 @@ ym-file-browser is a simple static file server with indexed search
 ```
 docker run -v /your-dir:/data -p 8080:8080 yuuichimizuoka/ym-file-browser
 ```
+### Self compiled docker
+```
+./mvnw package
+docker build -f src/main/docker/Dockerfile.jvm -t ym-file-browser:local .
+docker run -v /your-dir:/data -p 8080:8080 ym-file-browser:local
+```
 ### Java
 - clone the repository `git clone https://github.com/YuuichiMizouka/ym-file-browser`
 - build using maven `mvn install`

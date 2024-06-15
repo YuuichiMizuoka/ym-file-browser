@@ -1,4 +1,4 @@
-package net.vamoscantar.index;
+package net.vamoscantar.services;
 
 import io.quarkus.logging.Log;
 import io.quarkus.scheduler.Scheduled;

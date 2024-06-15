@@ -1,4 +1,4 @@
-package net.vamoscantar.index;
+package net.vamoscantar.services;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;

@@ -42,8 +42,6 @@ nb-configuration.xml
 # Plugin directory
 /.quarkus/cli/plugins/
 
-#Index file created during testing
-index.txt
-
-# My own stuff
-/scripts
+#dev files
+application-dev-local.properties
+/dev
